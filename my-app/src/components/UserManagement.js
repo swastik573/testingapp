@@ -1,19 +1,11 @@
-// src/components/UserManagement.js
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
+import './UserManagement.css';  // Add custom CSS
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
-  const [editingUser, setEditingUser] = useState(null);
-  const [formData, setFormData] = useState({
-    username: '',
-    address: '',
-    mobile: '',
-    email: '',
-    firstName: '',
-    lastName: '',
-    type: ''
-  });
+  const navigate = useNavigate();
   const loggedInUser = localStorage.getItem('loggedInUser');
 
   useEffect(() => {
@@ -33,12 +25,6 @@ const UserManagement = () => {
     setUsers(allUsers);
   }, []);
 
-  const handleEdit = (user) => {
-    setEditingUser(user);
-    setFormData({ ...user });
-    // window.location.href = `/usermanagement`;
-  };
-
   const handleDelete = (userId) => {
     if (loggedInUser === userId) {
       alert('You cannot delete your own account.');
@@ -49,25 +35,14 @@ const UserManagement = () => {
     setUsers(users.filter(user => user.id !== userId));
   };
 
-  const handleSave = () => {
-    const { id, ...updatedData } = formData;
-    const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(updatedData), 'secret-key').toString();
-    localStorage.setItem(id, encryptedData);
-
-    setUsers(users.map(user => (user.id === id ? { ...updatedData, id } : user)));
-    setEditingUser(null);
-    
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const handleEdit = (userId) => {
+    navigate(`/usermanagement/edit/${userId}`);
   };
 
   return (
-    <div>
+    <div className="user-management">
       <h2>User Management</h2>
-      <table>
+      <table className="user-table">
         <thead>
           <tr>
             <th>Username</th>
@@ -91,56 +66,15 @@ const UserManagement = () => {
               <td>{user.lastName}</td>
               <td>{user.type}</td>
               <td>
-                <button onClick={() => handleEdit(user)}>Edit</button>
+                <button className="edit-btn" onClick={() => handleEdit(user.id)}>Edit</button>
                 {loggedInUser !== user.id && (
-                  <button onClick={() => handleDelete(user.id)}>Delete</button>
+                  <button className="delete-btn" onClick={() => handleDelete(user.id)}>Delete</button>
                 )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      {editingUser && (
-        <div>
-          <h3>Edit User</h3>
-          <form onSubmit={(e) => { e.preventDefault(); handleSave(); window.location.href = `/usermanagement`;}}>
-            <div>
-              <label>Username:</label>
-              <input type="text" name="username" value={formData.username} onChange={handleInputChange} required />
-            </div>
-            <div>
-              <label>Address:</label>
-              <input type="text" name="address" value={formData.address} onChange={handleInputChange} required />
-            </div>
-            <div>
-              <label>Mobile:</label>
-              <input type="text" name="mobile" value={formData.mobile} onChange={handleInputChange} required />
-            </div>
-            <div>
-              <label>Email:</label>
-              <input type="email" name="email" value={formData.email} onChange={handleInputChange} required />
-            </div>
-            <div>
-              <label>First Name:</label>
-              <input type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} required />
-            </div>
-            <div>
-              <label>Last Name:</label>
-              <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} required />
-            </div>
-            <div>
-              <label>Type:</label>
-              <select name="type" value={formData.type} onChange={handleInputChange} required>
-                <option value="">Select</option>
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-              </select>
-            </div>
-            <button type="submit">Save</button>
-          </form>
-        </div>
-      )}
     </div>
   );
 };

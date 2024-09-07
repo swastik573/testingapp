@@ -29,7 +29,7 @@ const Reports = () => {
   };
 
   return (
-    <div>
+    <div style={{width:'80%',height:'80%', marginBlockStart:'30px',marginLeft:'30px'}}>
       <h2>Reports</h2>
       <Line data={data} />
     </div>
