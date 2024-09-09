@@ -1,9 +1,9 @@
-
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
-import './Register.css'; 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './Register.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -31,23 +31,34 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validate matching passwords
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords don't match!");
+      toast.error("Passwords don't match!");
       return;
     }
 
+    // Validate phone number length
+    if (formData.phone.length !== 10) {
+      toast.error('Phone number must be 10 digits!');
+      return;
+    }
+
+    // Encrypt and store data in localStorage
     const encryptedData = CryptoJS.AES.encrypt(
       JSON.stringify(formData),
       'secret-key'
     ).toString();
     localStorage.setItem(formData.email, encryptedData);
 
-    alert('Registration Successful!');
-    navigate('/'); 
+    toast.success('Registration Successful!');
+    setTimeout(() => {
+      navigate('/'); // Redirect after registration
+    }, 2000);
   };
 
   return (
     <div className="register-container">
+      <ToastContainer /> {/* Toast notification container */}
       <div className="register-form">
         <h2>Register</h2>
         <form onSubmit={handleSubmit}>
@@ -61,6 +72,7 @@ const Register = () => {
                 onChange={handleChange} 
                 pattern="[A-Za-z]+" 
                 required 
+                title="Username should contain only alphabetic characters."
               />
             </div>
             <div>
@@ -72,6 +84,7 @@ const Register = () => {
                 onChange={handleChange} 
                 pattern="[A-Za-z]+" 
                 required 
+                title="First name should contain only alphabetic characters."
               />
             </div>
           </div>
@@ -85,6 +98,7 @@ const Register = () => {
                 onChange={handleChange} 
                 pattern="[A-Za-z]+" 
                 required 
+                title="Last name should contain only alphabetic characters."
               />
             </div>
             <div>
@@ -96,6 +110,7 @@ const Register = () => {
                 onChange={handleChange} 
                 pattern="\d{10}" 
                 required 
+                title="Phone number should be exactly 10 digits."
               />
             </div>
           </div>
@@ -108,6 +123,7 @@ const Register = () => {
                 value={formData.email} 
                 onChange={handleChange} 
                 required 
+                title="Enter a valid email address."
               />
             </div>
             <div>
@@ -127,6 +143,9 @@ const Register = () => {
                 value={formData.password} 
                 onChange={handleChange} 
                 required 
+                minLength="8"
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])"
+                title="Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character."
               />
             </div>
             <div>
@@ -149,7 +168,7 @@ const Register = () => {
                 maxLength="300" 
                 required 
               />
-            </div>
+          </div>
           
           <button type="submit">Register</button>
         </form>
