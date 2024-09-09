@@ -1,8 +1,8 @@
-// src/components/Sidebar.js
+
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
-import './Sidebar.css'; // Import the CSS file
+import './Sidebar.css'; 
 
 const Sidebar = () => {
   const navigate = useNavigate();

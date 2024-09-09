@@ -1,8 +1,7 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
-import './Login.css'; // Import the CSS file
+import './Login.css'; 
 
 const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState('');
@@ -11,15 +10,15 @@ const Login = ({ setIsAuthenticated }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const encryptedUser = localStorage.getItem(email); // Get encrypted data by email
+    const encryptedUser = localStorage.getItem(email); 
     if (encryptedUser) {
       const decryptedUser = CryptoJS.AES.decrypt(encryptedUser, 'secret-key').toString(CryptoJS.enc.Utf8);
       const user = JSON.parse(decryptedUser);
 
       if (user.password === password) {
         setIsAuthenticated(true); 
-        localStorage.setItem('loggedInUser', email); // Store login status
-        navigate('/dashboard'); // Redirect to dashboard
+        localStorage.setItem('loggedInUser', email); 
+        navigate('/dashboard'); 
       } else {
         alert('Invalid credentials');
       }

@@ -1,9 +1,9 @@
-// src/components/Register.js
+
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
-import './Register.css'; // Ensure CSS is imported
+import './Register.css'; 
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +15,7 @@ const Register = () => {
     address: '',
     password: '',
     confirmPassword: '',
-    type: 'user', // Default value
+    type: 'user',
   });
 
   const navigate = useNavigate();
@@ -31,23 +31,19 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Check if passwords match
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords don't match!");
       return;
     }
 
-    // Encrypt data before storing
     const encryptedData = CryptoJS.AES.encrypt(
       JSON.stringify(formData),
-      'secret-key' // Use a secure key in a real application
+      'secret-key'
     ).toString();
-
-    // Store encrypted data in localStorage
     localStorage.setItem(formData.email, encryptedData);
 
     alert('Registration Successful!');
-    navigate('/'); // Redirect to login after successful registration
+    navigate('/'); 
   };
 
   return (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
-import './UserManagement.css';  // Add custom CSS
+import './UserManagement.css';  
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -9,7 +9,6 @@ const UserManagement = () => {
   const loggedInUser = localStorage.getItem('loggedInUser');
 
   useEffect(() => {
-    // Fetch users from localStorage
     const allUsers = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
@@ -17,7 +16,7 @@ const UserManagement = () => {
       try {
         const decryptedData = CryptoJS.AES.decrypt(encryptedData, 'secret-key').toString(CryptoJS.enc.Utf8);
         const userData = JSON.parse(decryptedData);
-        allUsers.push({ ...userData, id: key }); // Use key as unique ID
+        allUsers.push({ ...userData, id: key }); 
       } catch (e) {
         console.error('Error decrypting user data', e);
       }

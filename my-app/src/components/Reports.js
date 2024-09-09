@@ -1,9 +1,8 @@
-// src/components/Reports.js
+
 import React from 'react';
 import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-// Registering Chart.js components
 ChartJS.register(
   Title,
   Tooltip,

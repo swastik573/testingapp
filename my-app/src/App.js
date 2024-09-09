@@ -39,12 +39,10 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        {/* Login and Register routes should not have a sidebar */}
         <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
 
-        {/* Routes that include the sidebar */}
         <Route path="/dashboard" element={isAuthenticated ? <Layout><Dashboard /></Layout> : <Navigate to="/" />} />
         <Route path="/usermanagement" element={isAuthenticated ? <Layout><UserManagement /></Layout> : <Navigate to="/" />} />
         <Route path="/usermanagement/edit/:userId" element={isAuthenticated ? <EditUser /> : <Navigate to="/" />} />
