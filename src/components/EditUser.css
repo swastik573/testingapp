@@ -1,0 +1,44 @@
+.edit-user-container {
+    padding: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  .edit-user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .edit-user-form div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .edit-user-form label {
+    font-weight: bold;
+  }
+  
+  .edit-user-form input, 
+  .edit-user-form select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  button:hover {
+    background-color: #218838;
+  }
+  
